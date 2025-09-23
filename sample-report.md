@@ -1,13 +1,16 @@
-# Sample Redacted Report
+# Sample Bug Bounty Report (Redacted)
 
-**Title:** Example input validation issue in parser
+⚠️ **Disclaimer:** This report is a redacted sample for demonstration purposes only.  
+Sensitive details, program names, and exact payloads have been removed.  
 
-**Summary:** This report demonstrates my reporting style. Details are redacted.
+---
 
-**Steps to Reproduce:**  
-1. Provide minimal steps that are reproducible.  
-2. Use clear expected/actual sections.
+## 🐞 Summary
+Reflected XSS discovered in a beta web portal (redacted).  
+The vulnerability allowed JavaScript execution in the victim’s browser when a crafted URL was visited.  
 
-**Impact:** Demonstrates how an attacker could cause a remote crash or potential escalation.
+---
 
-**Suggested Fix:** Input validation and bounds checking are recommended.
+## 🔄 Steps to Reproduce
+1. Navigate to the beta testing portal: `https://redacted.example.com/feature?id=123`.  
+2. Modify the `id` parameter to include a test payload:  
