@@ -1,0 +1,76 @@
+============================================================
+EVIDENCE SUMMARY — Glean Behavioral Probe Research
+Researcher: Varun S (xivks)
+Date: October 2025
+Program: Glean — Bugcrowd (Submission ID: 33f3e063-81a8-4c89-9cd5-b216d0b38303)
+============================================================
+
+1. Research Objective
+---------------------
+The goal of this test was to confirm whether Glean's chat input processing triggers outbound network requests to arbitrary URLs, and if such behavior could potentially expose internal metadata or network resources.
+
+This work was done responsibly under Glean's bug bounty program and focused strictly on *behavioral observation*, not exploitation.
+
+2. Methodology
+--------------
+- Controlled URLs were sent through the chat feature (one per message) using unique identifiers.
+- Requests were monitored through a private webhook endpoint (webhook.site).
+- Control URLs included:
+  * https://example.com (baseline)
+  * https://127.0.0.1 (loopback)
+  * https://169.254.169.254 (metadata)
+  * https://bugbounty.glean.com
+  * https://webhook.site/<unique> (owned endpoint)
+
+- Each interaction was documented with timestamped screenshots and server logs.
+
+3. Results Summary
+------------------
+- Glean servers performed both **HEAD** and **GET** requests to external URLs.
+- The **webhook.site endpoint** received confirmed hits from Glean infrastructure.
+- Requests to **127.0.0.1** and **169.254.169.254** did **not** produce any traffic — proving Glean’s outbound fetcher is properly sandboxed and restricted from internal network access.
+- No sensitive data or internal response content was observed.
+
+4. Security Interpretation
+--------------------------
+- This confirms an *external SSRF surface* capable of making outbound calls.
+- Current impact level per Bugcrowd VRT: **P5 – Informational (External Service Interaction)**
+- Demonstrates *safe proof of concept* with valid logs and no private data exposure.
+- Indicates a well-architected boundary between public and internal resources.
+
+5. Ethical & Compliance Statement
+---------------------------------
+All research activities were:
+- Non-intrusive and compliant with the Glean bug bounty scope.
+- Conducted on owned endpoints only (no internal scanning).
+- Reported transparently to the vendor and triage team.
+
+No attempts were made to exploit or retrieve confidential information.
+
+6. Files & Evidence Attached
+----------------------------
+Screenshots (12 total):
+1. 20251021_10_chat_submission.png  
+2. 20251021_10_chat_response.png  
+3. 20251021_127_chat_submission.png  
+4. 20251021_127_chat_response.png  
+5. 20251021_169_chat_submission.png  
+6. 20251021_169_chat_response.png  
+7. 20251021_169_chat_submission_error.png  
+8. 20251021_example_chat_submission.png  
+9. 20251021_example_chat_response.png  
+10. 20251021_webhook_chat_submission.png  
+11. 20251021_webhook_chat_response.png  
+12. 20251021_webhook_request_log.png  
+
+All files are redacted for IPs and identifiers and retained privately.
+
+============================================================
+Conclusion
+============================================================
+This submission demonstrates safe, compliant, and technically accurate network behavioral testing.  
+It showcases a responsible research workflow suitable for Apple’s SRD consideration — combining system-level understanding, ethical methodology, and transparent reporting discipline.
+
+Prepared by:
+Varun S (xivks)
+============================================================
